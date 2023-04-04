@@ -22,8 +22,8 @@ class ClientHandlerTest {
     @Test
     void testCreateClientHandler() throws IOException {
         System.out.println("testCreateClientHandler");
-        Server server = Server.create(8080, 10, 10, 10);
-        Socket socket = new Socket("localhost", 8080);
+        Server server = Server.create(8081, 10, 10, 10);
+        Socket socket = new Socket("localhost", 8081);
         ClientHandler handler = new ClientHandler(socket, server);
 
         assertNotNull(handler);
@@ -36,8 +36,8 @@ class ClientHandlerTest {
 
     @Test
     void testSendMessage() throws IOException {
-        Server server = Server.create(8081, 10, 10, 10);
-        Socket socket = new Socket("localhost", 8081);
+        Server server = Server.create(8082, 10, 10, 10);
+        Socket socket = new Socket("localhost", 8082);
         ClientHandler handler = new ClientHandler(socket, server);
 
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -54,8 +54,8 @@ class ClientHandlerTest {
 
     @Test
     public void testReceiveFileFromServer() throws IOException {
-        Server server = Server.create(8082, 10, 10, 10);
-        Socket socket = new Socket("localhost", 8082);
+        Server server = Server.create(8083, 10, 10, 10);
+        Socket socket = new Socket("localhost", 8083);
         ClientHandler handler = new ClientHandler(socket, server);
 
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -71,8 +71,8 @@ class ClientHandlerTest {
 
     @Test
     void testReceiveFile(@TempDir Path tempDir) throws IOException {
-        Server server = Server.create(8083, 10, 10, 10);
-        Socket socket = new Socket("localhost", 8083);
+        Server server = Server.create(8084, 10, 10, 10);
+        Socket socket = new Socket("localhost", 8084);
 
         String fileName = "test-file.txt";
         String fileContent = "test content";

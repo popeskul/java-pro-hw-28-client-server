@@ -4,23 +4,23 @@ import org.apache.commons.cli.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
-import java.util.Scanner;
 
 public final class Main {
-    public static void main(String[] args) {
-        ClientConfig clientConfig = parseArguments(args).orElse(ClientConfig.defaultConfig());
+    public static void main(String[] args) throws ParseException {
+        CommandLine cmd = parseArguments(args);
+
+        ClientConfig clientConfig = ClientConfig.create(
+                cmd.getOptionValue("h", "localhost"),
+                Integer.parseInt(cmd.getOptionValue("p", "8080"))
+        );
 
         System.out.printf("[Client.Main] Client connecting to %s:%d%n", clientConfig.getIpAddress(), clientConfig.getPort());
 
         try {
             Client client = Client.create(clientConfig.getIpAddress(), clientConfig.getPort());
 
-            Scanner scanner = new Scanner(System.in);
-            String filePath;
-
             System.out.print("Enter file path or 'exit' to exit: ");
-            filePath = scanner.nextLine();
+            String filePath = cmd.getOptionValue("f");
 
             if (filePath.equals("exit")) {
                 client.sendMessage("-exit");
@@ -42,29 +42,14 @@ public final class Main {
     }
 
 
-    private static Optional<ClientConfig> parseArguments(String[] args) {
+    private static CommandLine parseArguments(String[] args) throws ParseException {
         Options options = new Options();
         options.addOption("h", "host", true, "server hostname");
         options.addOption("p", "port", true, "server port number");
+        options.addOption("f", "file", true, "file to send to server");
 
         CommandLineParser parser = new DefaultParser();
 
-        try {
-            CommandLine cmd = parser.parse(options, args);
-
-            String ipAddress = cmd.getOptionValue("h", "localhost");
-            int port = Integer.parseInt(cmd.getOptionValue("p", "8080"));
-
-            return Optional.of(ClientConfig.create(ipAddress, port));
-        } catch (ParseException e) {
-            System.err.println("Error parsing arguments: " + e.getMessage());
-            printUsage(options);
-            return Optional.empty();
-        }
-    }
-
-    private static void printUsage(Options options) {
-        HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("Client", options);
+        return parser.parse(options, args);
     }
 }
