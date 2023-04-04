@@ -17,4 +17,19 @@ This project is implemented in Java using the following technologies:
 - JUnit 5
 - Mockito
 
+## How to works
+### Server
+
+Optional params: -p, -c, -q, -t
+```bash
+java -jar server-1.0-SNAPSHOT-jar-with-dependencies.jar -p 8080 -c 10 -q 10 -t 5000
+```
+
+### Client
+
+Optional params: -p, -h, -t
+```bash
+java -jar client-1.0-SNAPSHOT-jar-with-dependencies.jar -f file.txt -p 8080 -h localhost
+```
+
 
